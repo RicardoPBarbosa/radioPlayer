@@ -1,0 +1,17 @@
+{
+  "name": "RadioNovaEra",
+  "version": "1.0.0",
+  "description": "Electron app as an experiment and a personal need to listen to this radio without having their website open.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Ricardo Barbosa",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.13"
+  },
+  "dependencies": {
+    "electron-about-window": "^1.11.1"
+  }
+}

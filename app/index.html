@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>RadioNovaEra</title>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+</head>
+<body style="-webkit-app-region: drag">
+  <img src="assets/img/logo2.png" alt="Radio Nova Era">
+
+  <div class="player">
+    <audio autoplay id="audio" src="http://centova.radios.pt:9478/stream" preload="auto"></audio>
+    <span id="control"></span>
+  </div>
+  <iframe id="info" src='http://radionovaera.pt/ne-player/soap.php'></iframe>
+  <i onclick="copy()" class="fas fa-copy"></i>
+  <p class="message">Copied to clipboard!</p>
+  <script>
+    const audio = document.getElementById("audio");
+    const control = document.getElementById("control");
+    const iframe = document.getElementById("info");
+    let currentSong;
+
+    const playButton = '<i class="fas fa-play"></i>';
+    const pauseButton = '<i class="fas fa-pause"></i>';
+
+    isDifferentSong = () => {
+      return currentSong !== getCurrentSong();
+    }
+
+    getCurrentSong = () => {
+      return iframe.contentWindow.document.body.innerText.replace(/(\r\n\t|\n|\r\t)/gm," ");
+    }
+
+    window.onload = function() {
+      changeButton();
+      currentSong = getCurrentSong();
+      
+      setInterval(() => {
+        if (isDifferentSong()) {
+          currentSong = getCurrentSong();
+          new window.Notification('Radio Nova Era', {
+            body: currentSong
+          });
+        }
+      }, 30000);
+    };
+
+    control.onclick = function(e) {
+      e.preventDefault();
+      audio.muted ? audio.muted = false : audio.muted = true;
+      changeButton();
+    };
+
+    changeButton = () => {
+      if (audio.muted) {
+        control.innerHTML = playButton;
+      } else {
+        control.innerHTML = pauseButton;
+      }
+    }
+
+    copy = () => {
+      const text = iframe.contentWindow.document.body.innerText;
+      copyToClipboard(text.replace(/(\r\n\t|\n|\r\t)/gm," "));
+      const message = document.getElementsByClassName('message')[0];
+      message.style.opacity = 1;
+      setTimeout(() => {
+        message.style.opacity = 0;
+      }, 1000);
+    }
+
+    copyToClipboard = (text) => {
+      const dummy = document.createElement("input");
+      document.body.appendChild(dummy);
+      dummy.setAttribute('value', text);
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+    }
+  </script>
+</body>
+</html>
