@@ -1,6 +1,6 @@
-Electron app to listen to radio stations, Portugal radio stations ( for now 😉)
+Electron app to listen to radio stations, Portugal radio station "Nova Era" ( for now 😉)
 ---------
-#### First Phase Jun 24, 2018
+#### First Phase
 ![First Phase Showdown](firstPhase.gif)
 
 Features <b>(MacOS tested only!)</b>:
